@@ -1,4 +1,6 @@
 import os
+from math import floor
+
 import matplotlib.pyplot as plt
 
 submissions = os.listdir("data/submissions")
@@ -12,7 +14,7 @@ def main():
 
     if inp == 1:
         total_score = 0
-        name = input("Enter your name: ")
+        name = input("What is the student's name: ")
         l = open("data/students.txt", "r")
         id = ""
         for line in l:
@@ -90,7 +92,7 @@ def main():
         avg = sum(scores) / len(scores)
 
         print(f"Min: {min}%")
-        print(f"Avg: {round(avg)}%")
+        print(f"Avg: {floor(avg)}%")
         print(f"Max: {max}%")
     if inp == 3:
         assign_name = input("What is the assignment name: ")
