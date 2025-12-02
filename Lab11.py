@@ -1,5 +1,5 @@
 import os
-from math import floor
+import matplotlib.pyplot as plt
 
 submissions = os.listdir("data/submissions")
 
@@ -68,8 +68,6 @@ def main():
                 last = True
         a.close()
 
-        print(assign_id)
-
         if assign_name == "-1":
             print("Assignment not found")
             return
@@ -87,11 +85,42 @@ def main():
                 max = student_score if student_score > max else max
                 min = student_score if student_score < min else min
 
+            sub.close()
+
         avg = sum(scores) / len(scores)
 
         print(f"Min: {min}%")
         print(f"Avg: {round(avg)}%")
         print(f"Max: {max}%")
+    if inp == 3:
+        assign_name = input("What is the assignment name: ")
+        a = open("data/assignments.txt", "r")
+
+        assign_id = "-1"
+        last = False
+        for line in a:
+            if last:
+                assign_id = line.rstrip('\n')
+                last = False
+            if assign_name == line.rstrip('\n'):
+                last = True
+        a.close()
+
+        if assign_name == "-1":
+            print("Assignment not found")
+            return
+
+        scores = []
+        for submission in submissions:
+            sub = open(f"data/submissions/{submission}", "r")
+            stud_id, assn_id, score = sub.readline().rstrip('\n').split('|')
+            if assign_id == assn_id:
+                student_score = int(score)
+                scores.append(student_score)
+
+        plt.hist(scores, bins=[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70,75, 80, 85, 90, 95, 100])
+        plt.show()
+
 
 if __name__ == '__main__':
     main()
